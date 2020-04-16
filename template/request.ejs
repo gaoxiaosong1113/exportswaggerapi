@@ -1,0 +1,32 @@
+import api from './api';
+
+const requstPromise = res => new Promise((resolve, reject) => { res ? resolve(res) : reject(res) });
+
+<% for( let attr in tags.children ) { %>
+<% var attrAry = attr.split('/'), name = ''
+if (attrAry[attrAry.length - 1] == '{id}') {
+    name = ''
+    for (var i = 0; i <= attrAry.length - 1; i++){
+        var item = attrAry[i]
+        if (i == 0) {
+            name += tags.children[attr]['requestType']
+        }
+        if (i > 0) {
+            name += item[0].toUpperCase() + item.slice(1, item.length)
+        }
+    }
+} else {
+    name = ''
+    for (var i = 0; i < attrAry.length; i++){
+        var item = attrAry[i]
+        if (i == 1) {
+            name += item
+        }
+        if (i > 1) {
+            name += item[0].toUpperCase() + item.slice(1, item.length)
+        }
+    }
+} %>
+// <%= tags.children[attr].summary %>
+export function <%= name %>(option) { return api.<%= tags.children[attr].requestType %>("<%= attr %>", option) }
+<% } %>

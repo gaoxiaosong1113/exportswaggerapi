@@ -1,0 +1,43 @@
+import store from '../store/store.js';
+import * as ActionTypes from '../constants/constants.js';
+import { isUser, isWxUser, path, saveData, loadData, removeData, requstPromise } from '../util/utils.js';
+import request from '../api/request.js';
+
+// antd 按需加载
+import { Toast } from '@ant-design/react-native';
+
+<% for( let attr in tags.children ) { %>
+<% var attrAry = attr.split('/'), name = ''
+if (attrAry[attrAry.length - 1] == '{id}') {
+    name = ''
+    for (var i = 0; i <= attrAry.length - 1; i++){
+        var item = attrAry[i]
+        if (i == 0) {
+            name += tags.children[attr]['requestType']
+        }
+        if (i > 0) {
+            name += item[0].toUpperCase() + item.slice(1, item.length)
+        }
+    }
+} else {
+    name = ''
+    for (var i = 0; i < attrAry.length; i++){
+        var item = attrAry[i]
+        if (i == 1) {
+            name += item
+        }
+        if (i > 1) {
+            name += item[0].toUpperCase() + item.slice(1, item.length)
+        }
+    }
+} %>
+// <%= tags.children[attr].summary %>
+export async function <%= name %>(options) {
+    const { dispatch } = store
+    const res = await request.<%= name %>(options)
+    return requstPromise(res, () => {
+
+    })
+}
+<% } %>
+    
